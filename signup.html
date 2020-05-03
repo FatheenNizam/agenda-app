@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<title>Agenda App | Sign up</title>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="bookmark-icon.png">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css" href="signup.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-startup-image" href="avatar.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <a href="main.html" id="company-logo-header">Agenda App<label id="navbar-beta-badge">Beta</label></a>
+    </div>
+
+    <div id="overlay"></div>
+
+    <div id="alert-container">
+      <label id="alert-message"></label>
+      <button id="close-button" class="fas fa-times" onclick="closeAlert()"></button>
+      <i id="alert-icon" class="fas fa-exclamation"></i>
+    </div>
+
+  <div id="main-wrapper">
+    <div id="title">Create account</div><br>
+    <form name="myForm" onsubmit="return validateForm()">
+      <input id="name-entry" class="entry" autofocus placeholder="Name" type="name" name="name" onsubmit="saveData()"></input><br>
+      <input id="email-entry" class="entry" type="email" placeholder="Email" name="email" onkeydown="saveData()" onchange="saveData()"></input><br>
+      <input id="pass-entry" class="entry" type="password" placeholder="Password" name="pass" onkeydown="saveData()" onchange="saveData()"></input><br>
+      <input id="pass-re-entry" class="entry" type="password" placeholder="Re-enter password" name="pass" onkeydown="saveData()" onchange="saveData()"></input><br>
+      <input id="submit-button" type="submit" value="Create account"></input>
+    </form>
+  <div id="create-account">Already have an account?</div>
+  <a href="login.html" id="alt-button">Login</a>
+
+  </div>
+
+
+  <script>
+    function saveData() {
+      var name = document.getElementById("name-entry").value
+      var email = document.getElementById("email-entry").value
+      var pass = document.getElementById("pass-entry").value
+
+      var dataName = localStorage.getItem("name")
+      var dataEmail = localStorage.getItem("email")
+      var dataPass = localStorage.getItem("pass")
+
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("pass", pass);
+    }
+  </script>
+
+  <script>
+    function validateForm() {
+
+      var name = document.getElementById("name-entry").value
+      var email = document.getElementById("email-entry").value
+      var pass = document.getElementById("pass-entry").value
+      var pass2 = document.getElementById("pass-re-entry").value
+
+      if (name == "") {
+        const alertMessage = "Oops! Name must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+        }
+      if (email == "") {
+        const alertMessage = "Oops! Email must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+        }
+
+      if (pass == "") {
+        const alertMessage = "Oops! Password must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+      }
+      if (pass2 == "") {
+        const alertMessage = "Oops! Password must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+      }
+      if (pass == "" && pass2 == "") {
+        console.log("both")
+        const alertMessage = "Oops! Passwords must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+      }
+      if (pass != pass2) {
+        const alertMessage = "Oops! Passwords do not match." //ALERT MESSAGE
+        openAlert(alertMessage)
+        document.getElementById("pass-entry").value = ""
+        document.getElementById("pass-re-entry").value = ""
+        document.getElementById("pass-entry").focus()
+        return false;
+      }
+
+      else {
+        document.location.href = "home.html"
+        return false;
+
+        var user = document.getElementById("user-entry").value;
+        var pass = document.getElementById("pass-entry").value;
+
+        var hiddenElement = document.createElement('a');
+
+        hiddenElement.href = 'data:attachment/text,' + encodeURI(user + "\n" + pass, true);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'data.txt';
+        hiddenElement.click();
+        }
+
+        function openAlert(alertMessage) {
+          document.getElementById("alert-message").innerHTML = alertMessage
+          document.getElementById("alert-container").style.display = "inherit"
+          document.getElementById("pass-entry").value = ""
+          document.getElementById("overlay").style.display = "inherit"
+          return false;
+        }
+      }
+
+      function closeAlert() {
+        console.log("closed alert")
+        document.getElementById("alert-container").style.display = "none"
+        document.getElementById("overlay").style.display = "none"
+        return false;
+      }
+  </script>
+
+  </body>
+</html>

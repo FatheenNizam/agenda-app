@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<title>Agenda App | Calendar</title>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="bookmark-icon.png">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css" href="home.css">
+    <link rel="stylesheet" type="text/css" href="calendar.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-startup-image" href="avatar.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha256-xljKCznmrf+eJGt+Yxyo+Z3KHpxlppBZSjyDlutbOh0=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="date.js"></script>
+  </head>
+
+  <body>
+
+    <div id="coming-soon">
+        <div id="title">Calendar</div>
+        <div id="description">Feature under development</div>
+    </div>
+
+    <div id="overlay"></div>
+    <div class="navbar">
+      <a href="main.html" id="company-logo">Agenda App</a>
+      <label id="navbar-beta-badge">Beta</label>
+      <a href="home.html" class="navbar-pages">Tasks</a>
+      <a href="calendar.html" id="selected-page" class="navbar-pages">Calendar</a>
+      <a href="marks.html" class="navbar-pages">Marks</a>
+      <div class="navbar-spacer"></div>
+      <button id="navbar-new-task-button" class="navbar-button hover-label" onclick="newTask()"><i class="far fa-plus"></i><span>New Task</span></button>
+      <!-- <button id="messages-button" class="navbar-button hover-label" onclick="openAlert('Messages are coming soon.','fas fa-envelope')"><i class="far fa-envelope"></i><span>Messages</span></button> -->
+      <!-- <button id="notifications-button" class="navbar-button hover-label"onclick="openAlert('Notifications are coming soon.','fas fa-bell')"><i class="far fa-bell"></i><span>Notifications</span></button> -->
+      <div id="navbar-username" class="navbar-item" onclick="viewActions()"></div>
+      <button class="menu" onclick="openMenu()"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <!-- DROPDOWN MENU -->
+    <div id="menu-dropdown-container">
+      <button id="dropdown-profile-button" class="fas fa-user menu-dropdown-button" onclick="viewProfile()"></button>
+      <button id="dropdown-notifications-button" class="fas fa-bell menu-dropdown-button" onclick="openAlert('Notifications are coming soon.','fas fa-bell')"></button>
+      <button id="dropdown-messages-button" class="fas fa-envelope menu-dropdown-button" onclick="openAlert('Messages are coming soon.','fas fa-envelope')"></button>
+      <a href="login.html" id="dropdown-sign-out-button"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+    </div>
+
+    <!-- ALERT -->
+    <div id="alert-container">
+      <label id="alert-message"></label>
+      <button id="close-button" class="fas fa-times" onclick="closeWindow('alert')"></button>
+      <i id="alert-icon" class="far fa-calendar"></i>
+    </div>
+
+    <!-- NEW TASK -->
+    <div id="new-task-container">
+      <label id="new-task-message"></label>
+      <div id="error-container">
+        <i class="fas fa-exclamation-circle"></i>
+        <label id="error-message"></label>
+      </div>
+        <form onsubmit="return validateTask()">
+          <input id="title-entry" class="entry" autofocus placeholder="Title" type="title"></input>
+          <br><i class="fas fa-calendar-day task-entry-icon"></i>
+          <input id="date-entry" class="entry"  placeholder="Date" type="date"></input>
+          <i class="fas fa-clock task-entry-icon"></i>
+          <input id="time-entry" class="entry"  placeholder="Time" type="time"></input>
+          <br><i class="fas fa-sticky-note task-entry-icon"></i>
+          <input id="description-entry" class="entry"  placeholder="Description" type="description"></input>
+          <i class="fas fa-tag task-entry-icon"></i>
+          <input id="tag-entry" class="entry"  placeholder="Enter a tag"></input>
+          <input id="cancel-button" value="Cancel" type="button" onclick="closeWindow('new-task')"></input>
+          <input id="submit-button" type="submit" value="Add"></input>
+        </form>
+      <i id="alert-icon" class=""></i>
+    </div>
+
+  <div id="task-container"></div>
+
+  <div id="action-container">
+      <button class="action-button" onclick="viewProfile(), closeWindow('action')"><i class="fas fa-user action-button-icon"></i>Profile</button>
+      <button class="action-button" onclick="openAlert('Settings are coming soon.', 'fas fa-cog')"><i class="fas fa-cog action-button-icon"></i>Settings</button>
+      <button class="action-button" onclick="window.location.href = 'login.html'"><i class="fas fa-sign-out-alt action-button-icon"></i>Sign out</button>
+  </div>
+
+  <script src="https://momentjs.com/downloads/moment.min.js"></script>
+
+  <script>
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = mm + '/' + dd + '/' + yyyy;
+
+    function saveTask(taskTitle, taskTime, taskDate, taskDescription, taskTag) {
+      document.getElementById("title-entry").value = ""
+      document.getElementById("time-entry").value = ""
+      document.getElementById("date-entry").value = ""
+      document.getElementById("tag-entry").value = ""
+      document.getElementById("description-entry").value = ""
+
+      tasks.push({
+        title: taskTitle,
+        date: taskDate,
+        time: taskTime,
+        description: taskDescription,
+        tag: taskTag,
+        isCompleted: false,
+        isFading: false,
+        isHidden: false,
+      })
+      renderTasks()
+    }
+
+    let tasks = []
+
+    const storedTasks = localStorage.getItem("tasks")
+
+    if (storedTasks) {
+      tasks = JSON.parse(storedTasks)
+    }
+
+    renderTasks()
+
+    setInterval(() => {
+      renderTasks()
+    }, 30*1000) // 30 seconds
+
+    function renderTasks() {
+
+      document.getElementById('task-container').innerHTML = tasks.map((task, index) => {
+        if (task.isHidden) return ''
+
+        var relativeTime = moment(task.date + " " + task.time, "MM/DD/YYYY h:mm a").fromNow()
+        const taskIsOverdue = relativeTime.includes("ago")
+
+        return `<div class="task-item ${task.isCompleted ? 'completed' : ''} ${task.isFading ? 'fading-out' : ''}" title="Click to complete" onclick="taskComplete(${index})">${task.title}<br>` +
+        (task.description.length > 0 ? `<span class="task-description">${task.description}</span><br>` : '') +
+        (task.tag.length > 0 ? `<span class="task-tag">${task.tag}</span> <span class="title-date">&#8226;</span> ` : '') +
+        `<span class="title-date ${taskIsOverdue ? 'overdue' : ''}"  title="${task.date + " " + task.time}">Due ${relativeTime}</span>
+        </div>`
+
+      }).join('')
+
+      localStorage.setItem("tasks", JSON.stringify(tasks))
+    }
+
+    function validateTask() {
+      var taskTitle = document.getElementById("title-entry").value;
+      var taskDate = document.getElementById("date-entry").value;
+      var newParsedDate = Date.parse(taskDate).toString('MM/d/yy')
+      taskDate = newParsedDate
+      var taskTime = document.getElementById("time-entry").value;
+      var taskTag = document.getElementById("tag-entry").value;
+      var taskDescription = document.getElementById("description-entry").value;
+
+      if (!taskTitle.match(/\S/)) {
+        console.log("Incorrect title!")
+        const alertMessage = "Oops! Title must be filled out." //ALERT MESSAGE
+        const alertIcon = "fas fa-exclamation"
+        taskAlert(alertMessage)
+        return false;
+      }
+
+      if (taskDate == "") {
+        const alertMessage = "Oops! Date must be filled out." //ALERT MESSAGE
+        const alertIcon = "fas fa-exclamation"
+        taskDate = nowDate
+        taskAlert(alertMessage)
+        return false;
+      }
+
+      if (taskTime == "") {
+        const alertMessage = "Oops! Time must be filled out." //ALERT MESSAGE
+        const alertIcon = "fas fa-exclamation"
+        taskTitle = "12:00 AM"
+        taskAlert(alertMessage)
+        return false;
+      }
+
+      const parsedDate = Date.parse(`${taskDate} ${taskTime}`)
+      if (parsedDate == null || isNaN(parsedDate.getDate())) {
+          console.log("Incorrect date/time!")
+          const alertMessage = "Please type date/time in correct format."
+          const alertIcon = "fas fa-exclamation"
+          taskAlert(alertMessage)
+          return false;
+      }
+
+      else {
+        closeWindow('new-task')
+        saveTask(taskTitle, taskTime, taskDate, taskDescription, taskTag)
+        return false;
+      }
+    }
+
+      const name = localStorage.getItem("name")
+      // *** if (!name) document.location.href="login.html" ENABLE THIS WHEN TESTING COMPLETE!! ***
+      document.getElementById("navbar-username").innerHTML = name
+
+    let menuOpen = false
+
+    function saveData() {
+      console.log("Saved")
+      document.getElementById("new-task-container").style.display = "none"
+      document.getElementById("overlay").style.display = "none"
+      document.getElementById("add-task-button").style.backgroundColor = "#007AFF"
+      document.getElementById("add-task-button").style.color = "#FFF"
+      document.getElementById("add-task-button").innerHTML = "Added!"
+      document.getElementById("error-message").style.display = "none"
+      document.getElementById("error-message").innerHTML = ""
+      setTimeout(() => {
+        document.getElementById("new-task-container").style.display = ""
+        document.getElementById("overlay").style.display = ""
+        document.getElementById("add-task-button").style.backgroundColor = ""
+        document.getElementById("add-task-button").style.color = ""
+        document.getElementById("add-task-button").innerHTML = "Add task"
+      }, 1000)
+    return false;
+    }
+
+  function viewProfile() {
+    const name = localStorage.getItem("name")
+    const email = localStorage.getItem("email")
+    document.getElementById("alert-message").innerHTML = "Name<br> <b>" + name +"</b><br><br>Email<br><b>" + email + "</b>"
+    document.getElementById("alert-icon").className = "fas fa-user"
+    document.getElementById("alert-container").style.display = "inherit"
+    document.getElementById("overlay").style.display = "inherit"
+    return false;
+  }
+
+  function newTask() {
+    const tasks = localStorage.setItem
+    var currentDate = moment().format("MMMM D, YYYY")
+    var currentTime = moment().format('h:mm A')
+    document.getElementById("title-entry").focus()
+    document.getElementById("new-task-container").style.display = "inherit"
+    document.getElementById("new-task-message").innerHTML = "Add Task"
+    document.getElementById("overlay").style.display = "inherit"
+    document.getElementById("error-container").style.display = "none"
+    document.getElementById("error-message").innerHTML = ""
+    document.getElementById("action-container").style.display = "none"
+
+    document.getElementById("title-entry").placeholder = "Remind me to..."
+    document.getElementById("date-entry").placeholder = "Today"
+    document.getElementById("time-entry").placeholder = currentTime
+
+    document.getElementById("date-entry").value = "Today"
+    document.getElementById("time-entry").value = currentTime
+    return false;
+  }
+
+  function viewActions() {
+    console.log("View actions")
+    document.getElementById("action-container").style.display = "inherit"
+  }
+
+    document.onclick = function(e){
+      var actionContainer = document.getElementById('action-container');
+       if (e.target.id !== 'actionContainer' && e.target.id !== 'navbar-username') {
+          actionContainer.style.display = 'none';
+       }
+    };
+
+  function openAlert(alertMessage, alertIcon) {
+    document.getElementById("alert-icon").className = alertIcon
+    document.getElementById("alert-message").innerHTML = alertMessage
+    document.getElementById("alert-container").style.display = "inherit"
+    document.getElementById("overlay").style.display = "inherit"
+  }
+
+  function taskAlert(alertMessage) {
+    document.getElementById("error-container").style.display = "inherit"
+    document.getElementById("error-message").innerHTML = alertMessage
+    return false;
+  }
+
+  function closeWindow(containerName) {
+    if (containerName == 'new-task') closeWindow('alert')
+    document.getElementById(containerName + "-container").style.display = "none"
+    document.getElementById("overlay").style.display = "none"
+  }
+
+  function openMenu() {
+    if (menuOpen == false) {
+      document.getElementById("menu-dropdown-container").style.animation = "slideDown 150ms"
+      menuOpen = true
+      document.getElementById("menu-dropdown-container").style.display = "inherit"
+    }
+    else if (menuOpen == true) {
+      document.getElementById("menu-dropdown-container").style.animation = "slideUp 150ms"
+      menuOpen = false
+      setTimeout(() => {
+        document.getElementById("menu-dropdown-container").style.display = ""
+      }, 150)
+    }
+  }
+
+  function taskComplete(index) {
+    tasks[index].isCompleted = true
+    renderTasks()
+
+    setTimeout(() => {
+      tasks[index].isFading = true
+      renderTasks()
+      setTimeout(() => {
+        tasks[index].isHidden = true
+        renderTasks()
+      }, 250)
+    }, 1000)
+    return false;
+  }
+  </script>
+
+  </body>
+</html>

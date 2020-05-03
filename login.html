@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<title>Agenda App | Login</title>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="bookmark-icon.png">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-startup-image" href="avatar.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="navbar">
+      <a href="main.html" id="company-logo-header">Agenda App<label id="navbar-beta-badge">Beta</label></a>
+    </div>
+
+    <div id="overlay"></div>
+
+    <div id="alert-container">
+      <button id="close-button" class="fas fa-times" onclick="closeAlert()"></button>
+      <i id="alert-icon" class="fas fa-exclamation"></i>
+      <label id="alert-message"></label>
+    </div>
+
+  <div id="main-wrapper">
+      <div id="title">Login</div><br>
+    <form onsubmit="return validateForm()">
+      <input id="user-entry" class="entry" autofocus placeholder="Email" type="email" name="name"></input><br>
+      <input id="pass-entry" class="entry" type="password" placeholder="Password" name="pass"></input><br>
+      <input id="submit-button" type="submit" value="Login"></input>
+    </form>
+
+    <div id="create-account">Don't have an account?</div>
+    <a href="signup.html" id="alt-button">Create&nbspaccount</a>
+  </div>
+
+  <script>
+  setTimeout(() => {
+    document.location.href = "http://fatheen.local:8000/home.html"
+  }, 1000 * 5)
+
+    function validateForm() {
+      var email = document.getElementById("user-entry").value;
+      var pass = document.getElementById("pass-entry").value;
+      var dataEmail = localStorage.getItem("email")
+      var dataPass = localStorage.getItem("pass")
+
+      if (email == "user@test" && pass == "topsecret") {
+        document.location.href = "home.html"
+        return false;
+      }
+
+      if (email == "") {
+        console.log("No email")
+        const alertMessage = "Oops! Email must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+        }
+
+      if (pass == "") {
+        console.log("No password")
+        const alertMessage = "Oops! Password must be filled out." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+      }
+      if (email == dataEmail && pass == dataPass) {
+        console.log("Correct!")
+        document.location.href = "home.html"
+        return false;
+      }
+
+      else {
+        console.log("OPEN ALERT")
+        const alertMessage = "Oops! Incorrect username/password." //ALERT MESSAGE
+        openAlert(alertMessage)
+        return false;
+      }
+
+        function openAlert(alertMessage) {
+          document.getElementById("alert-message").innerHTML = alertMessage
+          document.getElementById("alert-container").style.display = "inherit"
+          document.getElementById("pass-entry").value = ""
+          document.getElementById("overlay").style.display = "inherit"
+          return false;
+        }
+      }
+
+      function closeAlert() {
+        console.log("closed alert")
+        document.getElementById("alert-container").style.display = "none"
+        document.getElementById("overlay").style.display = "none"
+        return false;
+      }
+
+  </script>
+
+
+  </body>
+</html>
