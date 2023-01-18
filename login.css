@@ -2,7 +2,6 @@ html {
   /* font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; */
 }
 
-
 @font-face {
     font-family: 'ProximaNovaRegular';
     src: url('proxima-nova-regular-webfont.eot?#iefix') format('embedded-opentype'),
@@ -292,11 +291,10 @@ a {
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #0E0E10;
+    background-color: #121212;
   }
   .navbar {
-    background-color: #1C1C1E;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(32,32,32,0.8);
     -webkit-backdrop-filter:  saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
@@ -307,9 +305,6 @@ a {
     background-color: #1C1C1E;
     color: #FFF;
   }
-  /* .entry:hover {
-    background-color: #2C2C2E;
-  } */
   .entry:active {
     background-color: #2C2C2E;
   }

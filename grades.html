@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>Agenda App | Marks</title>
+<title>Agenda App | Grades</title>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" type="text/css" href="login.css">
     <link rel="stylesheet" type="text/css" href="home.css">
-    <link rel="stylesheet" type="text/css" href="marks.css">
+    <link rel="stylesheet" type="text/css" href="grades.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-startup-image" href="avatar.png">
@@ -15,33 +15,34 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha256-xljKCznmrf+eJGt+Yxyo+Z3KHpxlppBZSjyDlutbOh0=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="date.js"></script>
+    <script src="https://use.fontawesome.com/85c5483286.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
 
   <body>
-
-    <div id="coming-soon">
-        <div id="title">Marks</div>
-        <div id="description">Feature under development</div>
-    </div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
 
     <div id="overlay"></div>
     <div class="navbar">
       <a href="main.html" id="company-logo">Agenda App</a>
       <label id="navbar-beta-badge">Beta</label>
-      <a href="home.html" class="navbar-pages">Tasks</a>
-      <a href="calendar.html" class="navbar-pages">Calendar</a>
-      <a href="marks.html" id="selected-page" class="navbar-pages">Marks</a>
+      <a href="home.html" class="navbar-pages"><i class="far fa-list-ul menu-icon"></i>&nbsp;&nbsp;Tasks</a>
+      <!-- <a href="calendar.html" id="navbar-calendar" class="navbar-pages"><i class="far fa-calendar menu-icon"></i>&nbsp;&nbsp;Calendar</a> -->
+      <a href="grades.html" id="selected-page" class="navbar-pages"><i class="far fa-medal menu-icon-selected"></i>&nbsp;&nbsp;Grades</a>
       <div class="navbar-spacer"></div>
-      <button id="navbar-new-task-button" class="navbar-button hover-label" onclick="newTask()"><i class="far fa-plus"></i><span>New Task</span></button>
-      <!-- <button id="messages-button" class="navbar-button hover-label" onclick="openAlert('Messages are coming soon.','fas fa-envelope')"><i class="far fa-envelope"></i><span>Messages</span></button> -->
-      <!-- <button id="notifications-button" class="navbar-button hover-label"onclick="openAlert('Notifications are coming soon.','fas fa-bell')"><i class="far fa-bell"></i><span>Notifications</span></button> -->
+      <button id="navbar-new-task-button" class="navbar-button hover-label" onclick="newGrade()"><i class="far fa-plus"></i><span>New Task</span></button>
+      <button id="messages-button" class="navbar-button hover-label" onclick="openAlert('Messages are coming soon.<br>Hang tight!','far fa-envelope')"><i class="far fa-envelope"></i><span>Messages</span></button>
+      <button id="notifications-button" class="navbar-button hover-label"onclick="openAlert('Notifications are coming soon.<br>Hang tight!','far fa-bell')"><i class="far fa-bell"></i><span>Notifications</span></button>
       <div id="navbar-username" class="navbar-item" onclick="viewActions()"></div>
       <button class="menu" onclick="openMenu()"><i class="fas fa-bars"></i></button>
     </div>
 
     <!-- DROPDOWN MENU -->
     <div id="menu-dropdown-container">
-      <button id="dropdown-profile-button" class="fas fa-user menu-dropdown-button" onclick="viewProfile()"></button>
+      <button id="dropdown-profile-button" class="fas fa-user-graduate menu-dropdown-button" onclick="viewProfile()"></button>
       <button id="dropdown-notifications-button" class="fas fa-bell menu-dropdown-button" onclick="openAlert('Notifications are coming soon.','fas fa-bell')"></button>
       <button id="dropdown-messages-button" class="fas fa-envelope menu-dropdown-button" onclick="openAlert('Messages are coming soon.','fas fa-envelope')"></button>
       <a href="login.html" id="dropdown-sign-out-button"><i class="fas fa-sign-out-alt"></i> Sign out</a>
@@ -63,24 +64,29 @@
       </div>
         <form onsubmit="return validateTask()">
           <input id="title-entry" class="entry" autofocus placeholder="Title" type="title"></input>
-          <br><i class="fas fa-calendar-day task-entry-icon"></i>
-          <input id="date-entry" class="entry"  placeholder="Date" type="date"></input>
-          <i class="fas fa-clock task-entry-icon"></i>
-          <input id="time-entry" class="entry"  placeholder="Time" type="time"></input>
-          <br><i class="fas fa-sticky-note task-entry-icon"></i>
-          <input id="description-entry" class="entry"  placeholder="Description" type="description"></input>
-          <i class="fas fa-tag task-entry-icon"></i>
-          <input id="tag-entry" class="entry"  placeholder="Enter a tag"></input>
+          <br><i class="far fa-medal task-entry-icon"></i>
+          <input id="grade-entry" class="entry"  type="number" min="0" max="100"></input>
+          <i class="fas fa-hashtag task-entry-icon"></i>
+          <input id="tag-entry" class="entry"  placeholder="Course Code"></input>
+          <br><i class="far fa-sticky-note task-entry-icon"></i>
+          <input id="description-entry" class="entry"  placeholder="Add personal feedback..." type="description"></input><br>
+
           <input id="cancel-button" value="Cancel" type="button" onclick="closeWindow('new-task')"></input>
           <input id="submit-button" type="submit" value="Add"></input>
         </form>
-      <i id="alert-icon" class=""></i>
     </div>
 
-  <div id="task-container"></div>
+    <!-- TASK CONTAINER -->
+    <div id="add-task-button-wrapper">
+      <button id="add-task-button" onclick="newGrade()"><i class="far fa-plus menu-icon"></i>&nbsp;&nbsp;New grade</button>
+    </div>
+
+    <a id="task-placeholder-label">No work to be done!</a>
+
+  <div id="task-container-grades"></div>
 
   <div id="action-container">
-      <button class="action-button" onclick="viewProfile(), closeWindow('action')"><i class="fas fa-user action-button-icon"></i>Profile</button>
+      <button class="action-button" onclick="viewProfile(), closeWindow('action')"><i class="fas fa-user-graduate action-button-icon"></i>Profile</button>
       <button class="action-button" onclick="openAlert('Settings are coming soon.', 'fas fa-cog')"><i class="fas fa-cog action-button-icon"></i>Settings</button>
       <button class="action-button" onclick="window.location.href = 'login.html'"><i class="fas fa-sign-out-alt action-button-icon"></i>Sign out</button>
   </div>
@@ -94,16 +100,14 @@
     var yyyy = today.getFullYear();
     today = mm + '/' + dd + '/' + yyyy;
 
-    function saveTask(taskTitle, taskTime, taskDate, taskDescription, taskTag) {
+    function saveTask(taskTitle, taskTime, taskDescription, taskTag) {
       document.getElementById("title-entry").value = ""
-      document.getElementById("time-entry").value = ""
-      document.getElementById("date-entry").value = ""
+      document.getElementById("grade-entry").value = ""
       document.getElementById("tag-entry").value = ""
       document.getElementById("description-entry").value = ""
 
-      tasks.push({
+      grades.push({
         title: taskTitle,
-        date: taskDate,
         time: taskTime,
         description: taskDescription,
         tag: taskTag,
@@ -111,63 +115,53 @@
         isFading: false,
         isHidden: false,
       })
-      renderTasks()
+      renderGrades()
     }
 
-    let tasks = []
+    let grades = []
 
-    const storedTasks = localStorage.getItem("tasks")
+    const storedGrades = localStorage.getItem("grades")
 
-    if (storedTasks) {
-      tasks = JSON.parse(storedTasks)
+    if (storedGrades) {
+      grades = JSON.parse(storedGrades)
     }
 
-    renderTasks()
+    renderGrades()
 
     setInterval(() => {
-      renderTasks()
-    }, 30*1000) // 30 seconds
+      renderGrades()
+    }, 1*1000) // 1 second
 
-    function renderTasks() {
-
-      document.getElementById('task-container').innerHTML = tasks.map((task, index) => {
+    function renderGrades() {
+      document.getElementById('task-container-grades').innerHTML = grades.map((task, index) => {
         if (task.isHidden) return ''
 
         var relativeTime = moment(task.date + " " + task.time, "MM/DD/YYYY h:mm a").fromNow()
         const taskIsOverdue = relativeTime.includes("ago")
 
-        return `<div class="task-item ${task.isCompleted ? 'completed' : ''} ${task.isFading ? 'fading-out' : ''}" title="Click to complete" onclick="taskComplete(${index})">${task.title}<br>` +
+        return `<div class="grade-item ${task.isCompleted ? 'completed' : ''} ${task.isFading ? 'fading-out' : ''}" title="Click to delete" onclick="deleteGrade(${index})">${task.title}<br>` +
         (task.description.length > 0 ? `<span class="task-description">${task.description}</span><br>` : '') +
-        (task.tag.length > 0 ? `<span class="task-tag">${task.tag}</span> <span class="title-date">&#8226;</span> ` : '') +
-        `<span class="title-date ${taskIsOverdue ? 'overdue' : ''}"  title="${task.date + " " + task.time}">Due ${relativeTime}</span>
+        (task.tag.length > 0 ? `<span class="task-tag">${task.time}%</span> <span class="title-date">&#8226;</span> ` : '') +
+        `<span class="title-date"  title="${task.time}">${task.tag}</span>
         </div>`
 
       }).join('')
 
-      localStorage.setItem("tasks", JSON.stringify(tasks))
+      localStorage.setItem("grades", JSON.stringify(grades))
     }
 
     function validateTask() {
-      var taskTitle = document.getElementById("title-entry").value;
-      var taskDate = document.getElementById("date-entry").value;
-      var newParsedDate = Date.parse(taskDate).toString('MM/d/yy')
-      taskDate = newParsedDate
-      var taskTime = document.getElementById("time-entry").value;
+      const taskTitle = document.getElementById("title-entry").value;
+
+      var taskTime = document.getElementById("grade-entry").value;
+      var newParsedTime = document.getElementById('grade-entry').value / 100;
+
       var taskTag = document.getElementById("tag-entry").value;
       var taskDescription = document.getElementById("description-entry").value;
 
       if (!taskTitle.match(/\S/)) {
-        console.log("Incorrect title!")
         const alertMessage = "Oops! Title must be filled out." //ALERT MESSAGE
         const alertIcon = "fas fa-exclamation"
-        taskAlert(alertMessage)
-        return false;
-      }
-
-      if (taskDate == "") {
-        const alertMessage = "Oops! Date must be filled out." //ALERT MESSAGE
-        const alertIcon = "fas fa-exclamation"
-        taskDate = nowDate
         taskAlert(alertMessage)
         return false;
       }
@@ -180,25 +174,14 @@
         return false;
       }
 
-      const parsedDate = Date.parse(`${taskDate} ${taskTime}`)
-      if (parsedDate == null || isNaN(parsedDate.getDate())) {
-          console.log("Incorrect date/time!")
-          const alertMessage = "Please type date/time in correct format."
-          const alertIcon = "fas fa-exclamation"
-          taskAlert(alertMessage)
-          return false;
-      }
-
-      else {
-        closeWindow('new-task')
-        saveTask(taskTitle, taskTime, taskDate, taskDescription, taskTag)
-        return false;
-      }
+      closeWindow('new-task')
+      saveTask(taskTitle, taskTime, taskDescription, taskTag)
+      return false;
     }
 
-      const name = localStorage.getItem("name")
-      // *** if (!name) document.location.href="login.html" ENABLE THIS WHEN TESTING COMPLETE!! ***
-      document.getElementById("navbar-username").innerHTML = name
+    const name = localStorage.getItem("name")
+    if (!name) document.location.href="login.html"
+    document.getElementById("navbar-username").innerHTML = name
 
     let menuOpen = false
 
@@ -216,7 +199,7 @@
         document.getElementById("overlay").style.display = ""
         document.getElementById("add-task-button").style.backgroundColor = ""
         document.getElementById("add-task-button").style.color = ""
-        document.getElementById("add-task-button").innerHTML = "Add task"
+        document.getElementById("add-task-button").innerHTML = "Add Grade"
       }, 1000)
     return false;
     }
@@ -225,30 +208,26 @@
     const name = localStorage.getItem("name")
     const email = localStorage.getItem("email")
     document.getElementById("alert-message").innerHTML = "Name<br> <b>" + name +"</b><br><br>Email<br><b>" + email + "</b>"
-    document.getElementById("alert-icon").className = "fas fa-user"
+    document.getElementById("alert-icon").className = "fas fa-user-graduate"
     document.getElementById("alert-container").style.display = "inherit"
     document.getElementById("overlay").style.display = "inherit"
     return false;
   }
 
-  function newTask() {
-    const tasks = localStorage.setItem
+  function newGrade() {
+    const grades = localStorage.setItem
     var currentDate = moment().format("MMMM D, YYYY")
     var currentTime = moment().format('h:mm A')
     document.getElementById("title-entry").focus()
     document.getElementById("new-task-container").style.display = "inherit"
-    document.getElementById("new-task-message").innerHTML = "Add Task"
+    document.getElementById("new-task-message").innerHTML = "Add Grade"
     document.getElementById("overlay").style.display = "inherit"
     document.getElementById("error-container").style.display = "none"
     document.getElementById("error-message").innerHTML = ""
     document.getElementById("action-container").style.display = "none"
 
-    document.getElementById("title-entry").placeholder = "Remind me to..."
-    document.getElementById("date-entry").placeholder = "Today"
-    document.getElementById("time-entry").placeholder = currentTime
-
-    document.getElementById("date-entry").value = "Today"
-    document.getElementById("time-entry").value = currentTime
+    document.getElementById("title-entry").placeholder = "Assignment name..."
+    document.getElementById("grade-entry").placeholder = "75%"
     return false;
   }
 
@@ -256,13 +235,13 @@
     console.log("View actions")
     document.getElementById("action-container").style.display = "inherit"
   }
+    document.onclick = function(e) {
+      var container = document.getElementById('action-container');
 
-    document.onclick = function(e){
-      var actionContainer = document.getElementById('action-container');
-       if (e.target.id !== 'actionContainer' && e.target.id !== 'navbar-username') {
-          actionContainer.style.display = 'none';
+       if (e.target.id !== container && e.target.id !== 'navbar-username') {
+          container.style.display = 'none';
        }
-    };
+    }
 
   function openAlert(alertMessage, alertIcon) {
     document.getElementById("alert-icon").className = alertIcon
@@ -298,16 +277,15 @@
     }
   }
 
-  function taskComplete(index) {
-    tasks[index].isCompleted = true
-    renderTasks()
-
+  function deleteGrade(index) {
+    grades[index].isCompleted = true
+    renderGrades()
     setTimeout(() => {
-      tasks[index].isFading = true
-      renderTasks()
+      grades[index].isFading = true
+      renderGrades()
       setTimeout(() => {
-        tasks[index].isHidden = true
-        renderTasks()
+        grades[index].isHidden = true
+        renderGrades()
       }, 250)
     }, 1000)
     return false;

@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha256-xljKCznmrf+eJGt+Yxyo+Z3KHpxlppBZSjyDlutbOh0=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="date.js"></script>
+    <script src="https://use.fontawesome.com/85c5483286.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
 
@@ -27,20 +28,20 @@
     <div class="navbar">
       <a href="main.html" id="company-logo">Agenda App</a>
       <label id="navbar-beta-badge">Beta</label>
-      <a href="home.html" id="selected-page" class="navbar-pages">Tasks</a>
-      <a href="calendar.html" id="navbar-calendar" class="navbar-pages">Calendar</a>
-      <a href="marks.html" id="navbar-marks" class="navbar-pages">Marks</a>
+      <a href="home.html" id="selected-page" class="navbar-pages"><i class="far fa-list-ul menu-icon-selected"></i>&nbsp;&nbsp;Tasks</a>
+      <!-- <a href="calendar.html" id="navbar-calendar" class="navbar-pages"><i class="far fa-calendar menu-icon"></i>&nbsp;&nbsp;Calendar</a> -->
+      <a href="grades.html" id="navbar-grades" class="navbar-pages"><i class="far fa-medal menu-icon"></i>&nbsp;&nbsp;Grades</a>
       <div class="navbar-spacer"></div>
       <button id="navbar-new-task-button" class="navbar-button hover-label" onclick="newTask()"><i class="far fa-plus"></i><span>New Task</span></button>
-      <!-- <button id="messages-button" class="navbar-button hover-label" onclick="openAlert('Messages are coming soon.','fas fa-envelope')"><i class="far fa-envelope"></i><span>Messages</span></button> -->
-      <!-- <button id="notifications-button" class="navbar-button hover-label"onclick="openAlert('Notifications are coming soon.','fas fa-bell')"><i class="far fa-bell"></i><span>Notifications</span></button> -->
+      <button id="messages-button" class="navbar-button hover-label" onclick="openAlert('Messages are coming soon.<br>Hang tight!','far fa-envelope')"><i class="far fa-envelope"></i><span>Messages</span></button>
+      <button id="notifications-button" class="navbar-button hover-label"onclick="openAlert('Notifications are coming soon.<br>Hang tight!','far fa-bell')"><i class="far fa-bell"></i><span>Notifications</span></button>
       <div id="navbar-username" class="navbar-item" onclick="viewActions()"></div>
       <button class="menu" onclick="openMenu()"><i class="fas fa-bars"></i></button>
     </div>
 
-    <!-- DROPDOWN MENU -->
+    <!-- MOBILE DROPDOWN MENU -->
     <div id="menu-dropdown-container">
-      <button id="dropdown-profile-button" class="fas fa-user menu-dropdown-button" onclick="viewProfile()"></button>
+      <button id="dropdown-profile-button" class="fas fa-user-graduate menu-dropdown-button" onclick="viewProfile()"></button>
       <button id="dropdown-notifications-button" class="fas fa-bell menu-dropdown-button" onclick="openAlert('Notifications are coming soon.','fas fa-bell')"></button>
       <button id="dropdown-messages-button" class="fas fa-envelope menu-dropdown-button" onclick="openAlert('Messages are coming soon.','fas fa-envelope')"></button>
       <a href="login.html" id="dropdown-sign-out-button"><i class="fas fa-sign-out-alt"></i> Sign out</a>
@@ -63,12 +64,13 @@
         <form onsubmit="return validateTask()">
           <input id="title-entry" class="entry" autofocus placeholder="Title" type="title"></input>
           <br><i class="far fa-clock task-entry-icon"></i>
-          <input id="date-entry" class="entry"  placeholder="Date" type="date"></input>
-          <input id="time-entry" class="entry"  placeholder="Time" type="time"></input>
+          <input id="date-entry" class="entry"  placeholder="Date"></input>
+          <input id="time-entry" class="entry"  placeholder="Time"></input>
+          <br><i class="fas fa-hashtag task-entry-icon"></i>
+          <input id="tag-entry" class="entry"  placeholder="Course Code"></input>
           <br><i class="far fa-sticky-note task-entry-icon"></i>
           <input id="description-entry" class="entry"  placeholder="Description" type="description"></input><br>
-          <i class="fas fa-hashtag task-entry-icon"></i>
-          <input id="tag-entry" class="entry"  placeholder="Course Code"></input>
+          
           <input id="cancel-button" value="Cancel" type="button" onclick="closeWindow('new-task')"></input>
           <input id="submit-button" type="submit" value="Add"></input>
         </form>
@@ -76,15 +78,15 @@
 
     <!-- TASK CONTAINER -->
     <div id="add-task-button-wrapper">
-      <button id="add-task-button" onclick="newTask()">Add Task</button>
+      <button id="add-task-button" onclick="newTask()"><i class="far fa-plus menu-icon"></i>&nbsp;&nbsp;New task</button>
     </div>
 
-    <!-- <a id="task-placeholder-label">No Tasks</a> -->
+    <a id="task-placeholder-label">No work to be done!</a>
 
-  <div id="task-container"></div>
+  <div id="task-container-tasks"></div>
 
   <div id="action-container">
-      <button class="action-button" onclick="viewProfile(), closeWindow('action')"><i class="fas fa-user action-button-icon"></i>Profile</button>
+      <button class="action-button" onclick="viewProfile(), closeWindow('action')"><i class="fas fa-user-graduate action-button-icon"></i>Profile</button>
       <button class="action-button" onclick="openAlert('Settings are coming soon.', 'fas fa-cog')"><i class="fas fa-cog action-button-icon"></i>Settings</button>
       <button class="action-button" onclick="window.location.href = 'login.html'"><i class="fas fa-sign-out-alt action-button-icon"></i>Sign out</button>
   </div>
@@ -133,7 +135,7 @@
     }, 1*1000) // 1 second
 
     function renderTasks() {
-      document.getElementById('task-container').innerHTML = tasks.map((task, index) => {
+      document.getElementById('task-container-tasks').innerHTML = tasks.map((task, index) => {
         if (task.isHidden) return ''
 
         var relativeTime = moment(task.date + " " + task.time, "MM/DD/YYYY h:mm a").fromNow()
@@ -198,7 +200,7 @@
     }
 
     const name = localStorage.getItem("name")
-    // if (!name) document.location.href="login.html"
+    if (!name) document.location.href="login.html"
     document.getElementById("navbar-username").innerHTML = name
 
     let menuOpen = false
@@ -226,7 +228,7 @@
     const name = localStorage.getItem("name")
     const email = localStorage.getItem("email")
     document.getElementById("alert-message").innerHTML = "Name<br> <b>" + name +"</b><br><br>Email<br><b>" + email + "</b>"
-    document.getElementById("alert-icon").className = "fas fa-user"
+    document.getElementById("alert-icon").className = "fas fa-user-graduate"
     document.getElementById("alert-container").style.display = "inherit"
     document.getElementById("overlay").style.display = "inherit"
     return false;
@@ -257,13 +259,13 @@
     console.log("View actions")
     document.getElementById("action-container").style.display = "inherit"
   }
+    document.onclick = function(e) {
+      var container = document.getElementById('action-container');
 
-    document.onclick = function(e){
-      var actionContainer = document.getElementById('action-container');
-       if (e.target.id !== 'actionContainer' && e.target.id !== 'navbar-username') {
-          actionContainer.style.display = 'none';
+       if (e.target.id !== container && e.target.id !== 'navbar-username') {
+          container.style.display = 'none';
        }
-    };
+    }
 
   function openAlert(alertMessage, alertIcon) {
     document.getElementById("alert-icon").className = alertIcon

@@ -11,7 +11,7 @@
 }
 .navbar-pages {
   margin-left: 10px;
-  font-size: 20px;
+  font-size: 18px;
   text-decoration: none;
   padding: 10px 14px 10px 14px;
   border-radius: 40px;
@@ -64,6 +64,16 @@
   background-color: rgba(20,20,26,0.2);
 }
 
+.menu-icon{
+  vertical-align: center;
+  font-size: 18px;
+}
+
+.menu-icon-selected{
+  vertical-align: center;
+  color: rgb(0,122,255);
+}
+
 #message {
   position: absolute;
   color: #212121;
@@ -107,7 +117,7 @@
   padding-bottom: 64px;
 }
 
-#task-container {
+#task-container-tasks {
   position: absolute;
   width: 100%;
   top: 150px;
@@ -118,6 +128,7 @@
 }
 
 #task-placeholder-label {
+  display: none;
   position: fixed;
   font-size: 60px;
   width: 100%;
@@ -141,7 +152,7 @@
   font-size: 30px;
   animation: fadeInUp 500ms;
   transition-property: box-shadow, transform, background-color;
-  transition-duration: 150ms;
+  transition-duration: box-shadow 150ms;
   word-wrap: break-word;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -205,9 +216,9 @@
 
 .task-description {
   color: rgba(0,0,0,0.7);
-  font-size: 22px;
+  font-size: 18px;
   font-family: ProximaNovaRegular, sans-serif;
-  margin-top: -10px;
+  line-height: 0.5;
 }
 
 .title-date {
@@ -322,7 +333,6 @@
   bottom: 10px;
   width: 200px;
   padding: 10px 0;
-  /* background-color: rgba(255,0,0,0.2); */
   color: red;
   font-size: 20px;
   text-align: center;
@@ -408,16 +418,15 @@
 }
 
 #description-entry {
-  width: 78%;
+  width: 76%;
 }
 
 #tag-entry {
-  width: 78%;
+  width: 76%;
 }
 
 #submit-button {
   width: 43%;
-  font-family;
 }
 
 #cancel-button {
@@ -618,7 +627,7 @@
     #navbar-calendar {
       color: white;
     }
-    #navbar-marks {
+    #navbar-grades {
       color: white;
     }
     .navbar-pages:hover {
@@ -658,7 +667,7 @@
       background-color: #141416;
     }
     .task-item {
-      background-color: #1C1C1E;
+      background-color: rgb(30,30,30);
       color: white;
     }
     .task-item:hover {

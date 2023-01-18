@@ -1,0 +1,93 @@
+.grade-item {
+  position: relative;
+  background-color: rgba(242,242,247,1);
+  background-color: white;
+  color: rgba(0,0,0,0.9);
+  margin: 10px;
+  width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 30px;
+  animation: fadeInUp 500ms;
+  transition-property: box-shadow, transform, background-color;
+  transition-duration: box-shadow 150ms;
+  word-wrap: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#coming-soon {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#title {
+  top: 40%;
+  color: black;
+  font-size: 100px;
+  text-align: center;
+  font-family: ProximaNovaBold, sans-serif;
+}
+
+#description {
+  text-align: center;
+  margin-left: 10px;
+  border: 1.5px solid #FF2D55;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background-color: #FF2D550D;
+  color: #FF2D55;
+  font-size: 30px;
+}
+
+#grade-entry {
+  width: 33%;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0);
+}
+
+#tag-entry{
+  width: 32%;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0);
+}
+
+.grade-item.completed::after {
+  content: "Grade deleted!";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(102, 0, 0);
+  background-color: rgb(217, 76, 76);
+  font-size: 34px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
+}
+
+#task-container-grades {
+  position: absolute;
+  width: 100%;
+  top: 150px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 64px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  #navbar-home {
+    color: white;
+  }
+  #navbar-calendar {
+    color: white;
+  }
+    #title {
+      color: white;
+    }
+}
