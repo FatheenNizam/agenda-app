@@ -14,6 +14,38 @@
   word-wrap: break-word;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.grade-item:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 150ms;
+}
+.grade-item:not(.completed):active {
+  transform: scale(0.97);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition-property: transform, box-shadow;
+  transition-duration: 150ms;}
+
+.grade-item.completed::after {
+  content: "Grade deleted!";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(102, 0, 0);
+  background-color: rgb(217, 76, 76);
+  font-size: 34px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
+}
+
+.grade-item.completed.fading-out {
+  animation: fadeOut 250ms;
+}
 
 #coming-soon {
   position: absolute;
@@ -49,24 +81,6 @@
 #tag-entry{
   width: 32%;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0);
-}
-
-.grade-item.completed::after {
-  content: "Grade deleted!";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgb(102, 0, 0);
-  background-color: rgb(217, 76, 76);
-  font-size: 34px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
 }
 
 #task-container-grades {
